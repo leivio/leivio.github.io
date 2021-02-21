@@ -3,4 +3,4 @@
 
 Minimal Mistakes [Minimal Mistakes](https://mmistakes.github.io/minimal-mistakes/)
 
-Copyright (c) 2021 Leivio Fontenelen.
+Copyright (c) 2021 Leivio Fontenele.
