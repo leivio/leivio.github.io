@@ -10,7 +10,9 @@ sidebar:
 
 Hi! This is Leivio Fontenele. 
 
-I am data scientist who develops machine learning and statistical models that provide values to the product and business.
+Data mining algorithms, Pipilenes
+
+I am data engineer who develops amazing algorithmos for data mining, pipilenes, machine learning and statistical models that provide values to the product and business.
 
 Interests
 ============
