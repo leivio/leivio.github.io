@@ -1,0 +1,56 @@
+# main links
+main:
+  - title: "About"
+    url: /about/
+  - title: "Posts"
+    url: /posts/
+  - title: "Gallery"
+    url: /gallery/
+  - title: "MISC"
+    url: /misc/
+#side bar. docs. use it by adding to the pages  nav: "docs"
+docs:
+  - title: Welcome
+    children:
+      - title: "About"
+        url: /about/
+
+  - title: STAT
+    children:
+      - title: "STAT 110"
+        url: /stat/stat110-probability/
+
+  - title: NLP
+    children:
+      - title: "Summary and Resources"
+        url: /nlp/nlp-part-1/
+      - title: "Word Embeddings"
+        url: /nlp/nlp-part-2/
+      - title: "Attention"
+        url: /nlp/nlp-part-2/
+
+  - title: Algorithms 
+    children:
+      - title: "DFS"
+        url: /algo/algorithm-part-1/
+      - title: "BFS"
+        url: /algo/algorithm-part-2/
+
+  - title: RecSys
+    children:
+      - title: "RecSys Overview"
+        url: /recsys/recommendation_system_overview/
+
+
+  - title: "The Little Schemer"
+    children:
+      - title: "Reading Note"
+        url: /scheme/lisp-little-schemer-part-1/
+        
+
+  - title: Git 
+    children:
+      - title: "Git Basic Part 1"
+        url: /git/git-basic-part-1/
+      - title: "Git Basic Part 2"
+        url: /git/git-basic-part-2/

@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-01-18T16:36:30-05:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Leivio Fontenele</title><subtitle>Personal Website</subtitle><author><name>Leivio Fontenele</name></author><entry><title type="html">Attention</title><link href="http://localhost:4000/nlp/nlp-part-3/" rel="alternate" type="text/html" title="Attention" /><published>2021-01-13T00:00:00-05:00</published><updated>2021-01-13T00:00:00-05:00</updated><id>http://localhost:4000/nlp/nlp-part-3</id><content type="html" xml:base="http://localhost:4000/nlp/nlp-part-3/">&lt;p&gt;Today we are going to talk about Attention. This is part of the NLP series. See summary and other posts here.&lt;/p&gt;
+
+&lt;h3 id=&quot;bert&quot;&gt;BERT&lt;/h3&gt;
+&lt;p&gt;In the previous post we mentioned that since 2013, people started to use neural nets style representation like word2vec, etc.&lt;/p&gt;
+
+&lt;h3 id=&quot;attention&quot;&gt;Attention&lt;/h3&gt;
+
+&lt;p&gt;video 224N starting from &lt;a href=&quot;https://youtu.be/XXtpJxZBa2c?t=3653&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;reference&quot;&gt;Reference&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;CS229 winter 2019 &lt;a href=&quot;https://web.stanford.edu/class/archive/cs/cs224n/cs224n.1194/&quot;&gt;course website &lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Lecture 8&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;blog post [Learning Word Embedding] (https://lilianweng.github.io/lil-log/2017/10/15/learning-word-embedding.html) by Lilian Weng&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Up Next&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I will post more learning notes about NLP. Stay tuned!&lt;/p&gt;</content><author><name>Leivio Fontenele</name></author><category term="nlp" /><category term="nlp" /><category term="cs224n" /><category term="word2vec" /><category term="attention" /><category term="transformer" /><category term="bert" /><summary type="html">Attention please!</summary></entry><entry><title type="html">NLP</title><link href="http://localhost:4000/nlp/nlp-part-2/" rel="alternate" type="text/html" title="NLP " /><published>2021-01-03T00:00:00-05:00</published><updated>2021-01-03T00:00:00-05:00</updated><id>http://localhost:4000/nlp/nlp-part-2</id><content type="html" xml:base="http://localhost:4000/nlp/nlp-part-2/">&lt;p&gt;Today we are going to talk about word embeddings. This is the second part of the NLP series. See summary and other posts here.&lt;/p&gt;
+
+&lt;h3 id=&quot;intro&quot;&gt;Intro&lt;/h3&gt;
+
+&lt;p&gt;In the previous post we mentioned that since 2013, people started to use neural nets style representation like word2vec, etc.&lt;/p&gt;
+
+&lt;h3 id=&quot;word-embedding&quot;&gt;Word Embedding&lt;/h3&gt;
+
+&lt;h3 id=&quot;count-based-model-and-co-occurance-matrix&quot;&gt;Count-Based model and Co-occurance matrix&lt;/h3&gt;
+&lt;p&gt;[this paper] (http://www.cnbc.cmu.edu/~plaut/papers/pdf/RohdeGonnermanPlautSUB-CogSci.COALS.pdf)&lt;/p&gt;
+
+&lt;h4 id=&quot;word2vec&quot;&gt;Word2Vec&lt;/h4&gt;
+
+&lt;p&gt;2013&lt;/p&gt;
+
+&lt;p&gt;Related paper and note:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://papers.nips.cc/paper/2013/file/9aa42b31882ec039965f3c4923ce901b-Paper.pdf&quot;&gt;Distributed Representations of Words and Phrases
+and their Compositionality&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;&quot;&gt;Efficient Estimation of Word Representations in Vector Space&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/pdf/1402.3722.pdf&quot;&gt;word2vec Explained&lt;/a&gt;.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This paper served as a summary/note to further explain the word2vec model in the previous paper. Specifically on negative sampling (drawn by unigram distribution to the power of 3/4) based on skip-gram model, and its ojective function. Note that the words and contexts representation are learned jointly so the model is non-convex(comparing to learning only the word representation while fixing contexts, it will reduced to a logistic regression which is convex).&lt;/p&gt;
+
+&lt;p&gt;Here is a interesting Q&amp;amp;A quoted from the paper:&lt;/p&gt;
+
+&lt;p&gt;Why does this produce good word representations?&lt;/p&gt;
+
+&lt;p&gt;Good question. We don’t really know.
+The distributional hypothesis states that words in similar contexts have similar meanings. The objective above clearly tries to increase the quantity $v_{w} \dot v_{c}$ for good word-context pairs, and decrease it for bad ones. Intuitively, this
+means that words that share many contexts will be similar to each other (note also that contexts sharing many words will also be similar to each other). This is, however, very hand-wavy.
+Can we make this intuition more precise? We’d really like to see something
+more formal.&lt;/p&gt;
+
+&lt;h3 id=&quot;context-based-model&quot;&gt;Context-Based model&lt;/h3&gt;
+
+&lt;p&gt;“bigram”&lt;/p&gt;
+
+&lt;h4 id=&quot;skip-gram&quot;&gt;Skip-Gram&lt;/h4&gt;
+
+&lt;h4 id=&quot;continuous-bag-of-words&quot;&gt;Continuous Bag-of-words&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/pdf/1411.2738.pdf&quot;&gt;word2vec Parameter Learning Explained&lt;/a&gt; this summary paper helped explain the detailed of CBOW and Skip-Gram models and herachical softmax and negative sampling.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;hw1 on co-occurance &lt;a href=&quot;https://web.stanford.edu/class/archive/cs/cs224n/cs224n.1194/assignments/a1_preview/exploring_word_vectors.html&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;hw2 on implementing word2vec &lt;a href=&quot;https://web.stanford.edu/class/archive/cs/cs224n/cs224n.1194/assignments/a2.pdf&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;glove&quot;&gt;GloVe&lt;/h4&gt;
+&lt;p&gt;Global Vector (GloVe) model tries to combine count-based Matrix Factorization and skip-gram model.&lt;/p&gt;
+
+&lt;h3 id=&quot;language-models&quot;&gt;Language Models&lt;/h3&gt;
+&lt;p&gt;Language models are models that assign probability to sequence of words. N-gram is a simple model that assign sequance of n words. For example “my book”, “watch out” is a 2-gram (bigram), “this is a” is a 3-gram (trigram), etc. N-gram model will assign/estimate the probability of the n+1 word given the previous n words. 
+There are more complicated language model like RNN LMs and Seq2Seq.&lt;/p&gt;
+
+&lt;h2 id=&quot;reference&quot;&gt;Reference&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;CS229 winter 2019 &lt;a href=&quot;https://web.stanford.edu/class/archive/cs/cs224n/cs224n.1194/&quot;&gt;course website &lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://code.google.com/archive/p/word2vec/sa&quot;&gt;Google’s word2vec project archive&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://insights.untapt.com/deep-learning-for-natural-language-processing-tutorials-with-jupyter-notebooks-ad67f336ce3f&quot;&gt;Deep Learning for Natural Language Processing: Tutorials with Jupyter Notebooks&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;[TensorFlow tutorials] (https://www.tensorflow.org/tutorials/text/word2vec)&lt;/li&gt;
+  &lt;li&gt;blog post [Learning Word Embedding] (https://lilianweng.github.io/lil-log/2017/10/15/learning-word-embedding.html) by Lilian Weng&lt;/li&gt;
+  &lt;li&gt;Up Next&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I will post some learning notes about NLP. Stay tuned!&lt;/p&gt;</content><author><name>Leivio Fontenele</name></author><category term="nlp" /><category term="nlp" /><category term="cs224n" /><category term="word2vec" /><summary type="html">Word Embeddings</summary></entry><entry><title type="html">NLP</title><link href="http://localhost:4000/nlp/nlp-part-1/" rel="alternate" type="text/html" title="NLP " /><published>2020-12-30T00:00:00-05:00</published><updated>2020-12-30T00:00:00-05:00</updated><id>http://localhost:4000/nlp/nlp-part-1</id><content type="html" xml:base="http://localhost:4000/nlp/nlp-part-1/">&lt;h2 id=&quot;intro&quot;&gt;Intro&lt;/h2&gt;
+
+&lt;p&gt;Today we are goinig to talk about NLP! I have listed some resources that are helpful to start the learning journey in this field. I also did a summary of some of the topics/SOTA models in NLP. This is part of the NLP series. See summary and other posts here.&lt;/p&gt;
+
+&lt;h2 id=&quot;resource&quot;&gt;Resource&lt;/h2&gt;
+
+&lt;h3 id=&quot;courses&quot;&gt;Courses:&lt;/h3&gt;
+
+&lt;p&gt;The first three are graduate level NLP courses with focus on neural nets applications and SOTA models (Attention, Transformer, BERT, Multi-lingual, etc) while the last two courses are more introductory courses.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://www.youtube.com/playlist?list=PLoROMvodv4rOhcuXMZkNm7j3fVwBBY42z&quot;&gt;Stanford CS224N&lt;/a&gt; Natural Language Processing with Deep Learning by Christopher Mannings&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=xeu7LKIT194&amp;amp;list=PL8PYTP1V4I8CHhppU6n1Q9-04m96D9gt5&quot;&gt;CMU CS11-737&lt;/a&gt; Multilingual NLP 2020, by Graham Neubig&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=D7o2Z1tAuQc&amp;amp;list=PL8PYTP1V4I8CJ7nMxMC8aXv8WqKYwj-aJ&quot;&gt;CMU CS11-737&lt;/a&gt; Neural Nets for NLP 2020 by Graham Neubig&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://www.youtube.com/playlist?list=PLoROMvodv4rObpMCir6rNNUlFAn56Js20&quot;&gt;Stanford CS224U&lt;/a&gt; Natural Language Understanding&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.youtube.com/channel/UC_48v322owNVtORXuMeRmpA&quot;&gt;Stanford CS124&lt;/a&gt; From Languages to Information by Dan Jurafsky&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;textbook&quot;&gt;Textbook:&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://github.com/jacobeisenstein/gt-nlp-class/blob/master/notes/eisenstein-nlp-notes.pdf&quot;&gt;Natural Language Processing&lt;/a&gt; by Jacob Eisenstein&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://web.stanford.edu/~jurafsky/slp3/&quot;&gt;Speech and Language Processing&lt;/a&gt; by Dan Jurafsky and James H. Martin&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://u.cs.biu.ac.il/~yogo/nnlp.pdf&quot;&gt;A Primer on Neural Network Models
+for Natural Language Processing&lt;/a&gt; by Yoav Goldberg&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://nlp.stanford.edu/IR-book/information-retrieval-book.html&quot;&gt;Introduction to Information Retrieval&lt;/a&gt; by Christopher Manning, Prabhakar Raghavan and Hinrich Schütze&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;summary&quot;&gt;Summary&lt;/h2&gt;
+
+&lt;p&gt;Chris mentioned in CS224N that NLP can be categorized into more tranditional NLP (up until approximately 2012) and more “neural nets stype” representation and models since 2013. So let’s talk about some recent breakthroughs in NLP:&lt;/p&gt;
+
+&lt;h3 id=&quot;word-embedding&quot;&gt;Word Embedding&lt;/h3&gt;
+
+&lt;p&gt;Word embedding is a dense representation of words in vector space. The biggest jump in NLP when moving from the sparse-input linear models to neural-network based models is to represent each feature as a dense vectors rather than each feature as a unique dimension (one-hot encoding/representation).&lt;/p&gt;
+
+&lt;p&gt;The word embeddings (vectors for each word) can be trained just like other parameters in the neural network, or it can be used from pre-trained models.&lt;/p&gt;
+
+&lt;p&gt;There are several ways we can obtain word enbeddings:&lt;/p&gt;
+
+&lt;h4 id=&quot;count-based-model-and-co-occurance-matrix&quot;&gt;Count-Based model and Co-occurance matrix&lt;/h4&gt;
+
+&lt;h4 id=&quot;word2vec&quot;&gt;Word2Vec&lt;/h4&gt;
+
+&lt;p&gt;[this paper] (http://www.cnbc.cmu.edu/~plaut/papers/pdf/RohdeGonnermanPlautSUB-CogSci.COALS.pdf)&lt;/p&gt;
+
+&lt;h3 id=&quot;context-based-model&quot;&gt;Context-Based model&lt;/h3&gt;
+
+&lt;p&gt;“bigram”&lt;/p&gt;
+
+&lt;h4 id=&quot;skip-gram&quot;&gt;Skip-Gram&lt;/h4&gt;
+
+&lt;h4 id=&quot;continuous-bag-of-words&quot;&gt;Continuous Bag-of-words&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/pdf/1411.2738.pdf&quot;&gt;word2vec Parameter Learning Explained&lt;/a&gt; this summary paper helped explain the detailed of CBOW and Skip-Gram models and herachical softmax and negative sampling.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;hw1 on co-occurance &lt;a href=&quot;https://web.stanford.edu/class/archive/cs/cs224n/cs224n.1194/assignments/a1_preview/exploring_word_vectors.html&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;hw2 on implementing word2vec &lt;a href=&quot;https://web.stanford.edu/class/archive/cs/cs224n/cs224n.1194/assignments/a2.pdf&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;glove&quot;&gt;GloVe&lt;/h4&gt;
+&lt;p&gt;Global Vector (GloVe) model tries to combine count-based Matrix Factorization and skip-gram model.&lt;/p&gt;
+
+&lt;h2 id=&quot;language-models&quot;&gt;Language Models&lt;/h2&gt;
+&lt;p&gt;Language models are models that assign probability to sequence of words. N-gram is a simple model that assign sequance of n words. For example “my book”, “watch out” is a 2-gram (bigram), “this is a” is a 3-gram (trigram), etc. N-gram model will assign/estimate the probability of the n+1 word given the previous n words. 
+There are more complicated language model like RNN LMs and Seq2Seq.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Up Next&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I will post some learning notes about NLP. Stay tuned!&lt;/p&gt;</content><author><name>Leivio Fontenele</name></author><category term="nlp" /><category term="nlp" /><category term="course" /><category term="cs224u" /><category term="cs224n" /><category term="word2vec" /><category term="transformer" /><category term="bert" /><summary type="html">Some resource for learning NLP</summary></entry><entry><title type="html">Recommendation System Overview</title><link href="http://localhost:4000/recsys/recommendation_system_overview/" rel="alternate" type="text/html" title="Recommendation System Overview" /><published>2020-12-20T00:00:00-05:00</published><updated>2020-12-20T00:00:00-05:00</updated><id>http://localhost:4000/recsys/recommendation_system_overview</id><content type="html" xml:base="http://localhost:4000/recsys/recommendation_system_overview/">&lt;ul&gt;
+  &lt;li&gt;Up Next&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;In the part II we will talk more about some of the methods. Stay tuned!&lt;/p&gt;</content><author><name>Leivio Fontenele</name></author><category term="recsys" /><category term="recsys" /><category term="deep learning" /><summary type="html">A overview of Recommendation System...</summary></entry><entry><title type="html">Git Basic Part I</title><link href="http://localhost:4000/git/git-basic-part-1/" rel="alternate" type="text/html" title="Git Basic Part I" /><published>2020-12-03T00:00:00-05:00</published><updated>2020-12-03T00:00:00-05:00</updated><id>http://localhost:4000/git/git-basic-part-1</id><content type="html" xml:base="http://localhost:4000/git/git-basic-part-1/">&lt;h3 id=&quot;git-branch&quot;&gt;Git Branch&lt;/h3&gt;
+
+&lt;h4 id=&quot;types-of-git-branch&quot;&gt;Types of git branch&lt;/h4&gt;
+
+&lt;p&gt;there are two type of branches:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code&gt;local branches&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code&gt;remove-tracking branches&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;you can check them out using &lt;code&gt;git branch&lt;/code&gt; and &lt;code&gt;git branch -r&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;tree-and-dag&quot;&gt;Tree and DAG&lt;/h3&gt;
+
+&lt;h3 id=&quot;git-pull&quot;&gt;Git Pull&lt;/h3&gt;
+&lt;p&gt;git fetch
+git merge&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Up Next&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;In the part II we will talk more about xxx in git. Stay tuned!&lt;/p&gt;</content><author><name>Leivio Fontenele</name></author><category term="git" /><category term="git" /><category term="tree" /><category term="dag" /><summary type="html">What is a git branch?</summary></entry><entry><title type="html">Intro to data structure and algorithm Part II</title><link href="http://localhost:4000/algo/algorithm-part-2/" rel="alternate" type="text/html" title="Intro to data structure and algorithm Part II" /><published>2020-11-30T00:00:00-05:00</published><updated>2020-11-30T00:00:00-05:00</updated><id>http://localhost:4000/algo/algorithm-part-2</id><content type="html" xml:base="http://localhost:4000/algo/algorithm-part-2/">&lt;p class=&quot;notice--primary&quot;&gt;&lt;em&gt;This is Part II of the intro to data structure and algo series. See others here.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt; 
+ &lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;BFS in Trees structure:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;max Depth in a tree&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;def maxDepth(self, root: TreeNode) -&amp;gt; int:
+        #non-recursive, queue
+        if not root:
+            return 0
+        q = collections.deque()
+        q.append(root)
+        depth = 0
+        while q:
+            depth+=1
+            q_size = len(q)
+			  ## level-order using queue
+            for i in range(q_size):
+                curr_node = q.popleft()
+                if curr_node.left:
+                    q.append(curr_node.left)
+                if curr_node.right:
+                    q.append(curr_node.right)
+            
+        return depth
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;BFS in graph structure:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;minimum steps in an island&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;
+&lt;/code&gt;&lt;/pre&gt;</content><author><name>Leivio Fontenele</name></author><category term="algo" /><category term="algorithm" /><category term="data structure" /><category term="dfs" /><category term="bfs" /><category term="graph" /><summary type="html">BFS and level order traversal using queue</summary></entry><entry><title type="html">The Little Schemer Reading Note Part I</title><link href="http://localhost:4000/scheme/lisp-little-schemer-part-1/" rel="alternate" type="text/html" title="The Little Schemer Reading Note Part I" /><published>2020-11-20T00:00:00-05:00</published><updated>2020-11-20T00:00:00-05:00</updated><id>http://localhost:4000/scheme/lisp-little-schemer-part-1</id><content type="html" xml:base="http://localhost:4000/scheme/lisp-little-schemer-part-1/">&lt;p&gt;&lt;img src=&quot;/assets/images/thumbnails/The_little_schemer.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;The Little Schemer&lt;/em&gt;&lt;/strong&gt; is a great book writen by Daniel P. Friedman and Matthias Felleisen. The book introduced concepts in computer science and functional programming in Scheme/Lisp. It is about &lt;strong&gt;recursion&lt;/strong&gt; at its core. (Check out the cover of the book and you will find out!)&lt;/p&gt;
+
+&lt;p&gt;The authors mentioned in the &lt;a href=&quot;https://felleisen.org/matthias/BTLS-preface.html&quot;&gt;&lt;em&gt;preface&lt;/em&gt;&lt;/a&gt; that:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;em&gt;The goal of this book is to teach the reader to think recursively&lt;/em&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;I really love the way the book is structured by asking questions from simple examples and let the readers to think and grasp the concepts along the process. I don’t know about LISP or Scheme programing language beforehand but I was able to pick it up through its unique Q&amp;amp;A style of teaching (It’s fun and fascinating!).&lt;/p&gt;
+
+&lt;p&gt;Here is the table of contents of &lt;em&gt;The Little Schemer&lt;/em&gt;. It’s pretty light in the first few chapters but quickly gets quite in depth. Especially in last few chapter about lambda and Y-combinator.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Chapter  1: Toys&lt;/li&gt;
+  &lt;li&gt;Chapter  2: Do It, Do It Again, and Again, and Again…&lt;/li&gt;
+  &lt;li&gt;Chapter  3: Cons the Magnificent&lt;/li&gt;
+  &lt;li&gt;Chapter  4: Numbers Games&lt;/li&gt;
+  &lt;li&gt;Chapter  5: &lt;em&gt;Oh My Gawd&lt;/em&gt;: It’s Full of Stars&lt;/li&gt;
+  &lt;li&gt;Chapter  6: Shadows&lt;/li&gt;
+  &lt;li&gt;Chapter  7: Shadows&lt;/li&gt;
+  &lt;li&gt;Chapter  8: Lambda the Ultimate&lt;/li&gt;
+  &lt;li&gt;Chapter  9: … and Again, and Again, and Again …&lt;/li&gt;
+  &lt;li&gt;Chapter 10: What Is the Value of All of This?&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;resource-to-get-started&quot;&gt;Resource to get started&lt;/h2&gt;
+
+&lt;p&gt;Here are some resources I found very useful when I read through the book.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Two talks on YouTube given by &lt;a href=&quot;https://www.youtube.com/watch?v=VxINoKFm-S4&quot;&gt;David Christiansen&lt;/a&gt; and &lt;a href=&quot;https://www.youtube.com/watch?v=tA1clbGDczI&amp;amp;t=3860s&quot;&gt;Andy Balaam&lt;/a&gt;.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://github.com/pkrumins/the-little-schemer&quot;&gt;The little schemer repo&lt;/a&gt; with code and examples in book&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;If you want to run Scheme/LISP on your computer without a Scheme interpreter. &lt;a href=&quot;https://www.viget.com/articles/the-little-schemer-will-expand-blow-your-mind/&quot;&gt;Here&lt;/a&gt; is a tutorial on how to do so through REPL.&lt;/p&gt;
+
+&lt;h2 id=&quot;basic-concepts&quot;&gt;Basic concepts&lt;/h2&gt;
+
+&lt;p&gt;Ok, let’s get started! Today we are going through some basic concepts in the first few chapters and some great examples about how functions are defined using recursion. The first chapter talks about basic data types and operation. The second chapter introduces two recursive functions using those basic data types &amp;amp; operations.&lt;/p&gt;
+
+&lt;h3 id=&quot;basic-data-types&quot;&gt;Basic data types:&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;atom&lt;/code&gt;: The atom is the basic element in Scheme. An atom is a constant whose name is its own value.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;list&lt;/code&gt;: We use parentheses &lt;code&gt;()&lt;/code&gt; to specify list of values (S-expressions). For example, &lt;code&gt;(a b c)&lt;/code&gt; is a list, &lt;code&gt;((a b c) x y z)&lt;/code&gt; is also a list.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;S-expression&lt;/code&gt;: An S-expression is either an atom or a collection of S-expressions enclosed in parentheses. The second form of S-expressions are known as lists.&lt;/p&gt;
+
+&lt;h3 id=&quot;basic-functions&quot;&gt;Basic functions:&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;car l&lt;/code&gt;: return the first element in the list. E.g. &lt;code&gt;car (a b c)&lt;/code&gt; will give you &lt;code&gt;a&lt;/code&gt;. The primitive car is defined only for non-empty lists.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;cdr l&lt;/code&gt;: return a list consists of the rest of the list excluding its first element. The primitive cdr is defined only for non-empty lists. The cdr of any non-empty list will always return another list. E.g. &lt;code&gt;cdr (a b c)&lt;/code&gt; will give you &lt;code&gt;(b c)&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;cons a l&lt;/code&gt;: Concatenate between an atom &lt;code&gt;a&lt;/code&gt; and a list &lt;code&gt;l&lt;/code&gt;. The primitive cons takes two arguments and the second argument to cons must be a list. The result is also a list. E.g. &lt;code&gt;cons a (b c)&lt;/code&gt; will give you &lt;code&gt;(a b c)&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;null? l&lt;/code&gt; return ture if list is empty. The primitive null? is defined only for lists.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;eq? a b&lt;/code&gt;: check if two element are equal.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;lat? l&lt;/code&gt;: check if each S-expression in the list is an atom&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;member? a l&lt;/code&gt; : check if a is a member in l&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;rmember? a l&lt;/code&gt;: remove the first occurance of the atom &lt;code&gt;a&lt;/code&gt; from the  list &lt;code&gt;l&lt;/code&gt;. E.g &lt;code&gt;rember b (a b c b c)&lt;/code&gt; will return &lt;code&gt;(a c b c)&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/post_image/little_schemer_1.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;examples-using-recursion&quot;&gt;Examples using recursion&lt;/h2&gt;
+
+&lt;p&gt;Here is an example of how recursion is used almost everywhere in the function definitions:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Definition of &lt;code&gt;lat&lt;/code&gt; function (Chp2 p16)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-lisp&quot;&gt;(define lat? 
+ (lambda (l)
+  (cond
+   ((null? l) #t )
+     ((atom? (car l)) (lat? (cdr l))) 
+      (else #f))))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The idea to define &lt;code&gt;lat&lt;/code&gt; function is recurion. It first takes a look at the first element in the list &lt;code&gt;car l&lt;/code&gt;, if it is an atom, then we will keep using the same function &lt;code&gt;lat&lt;/code&gt; on the rest of the list &lt;code&gt;cdr l&lt;/code&gt;. If it’s not an atom we return False &lt;code&gt;#f&lt;/code&gt;.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Definition of &lt;code&gt;member?&lt;/code&gt; function (Chp2 p22)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-lisp&quot;&gt;(def member?
+  (lambda (a lat)
+    (cond
+      ((null? lat) false)
+      (else (or (eq? (car lat) a)
+        (member? a (cdr lat)))))))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Similar to &lt;code&gt;lat&lt;/code&gt; function, &lt;code&gt;member&lt;/code&gt; looks at the first element &lt;code&gt;car l&lt;/code&gt; in the list to check if it equals to &lt;code&gt;a&lt;/code&gt;, then using the same function recursively on the other part of the list excluding first element &lt;code&gt;cdr l&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Note that the first condition &lt;code&gt;null?&lt;/code&gt; is very important because it serves as the &lt;strong&gt;termination condition&lt;/strong&gt; to the recursion. It’s so important that it’s listed as the very first &lt;strong&gt;commandment&lt;/strong&gt; in the book (There are 10 commandments in the book and we will talked about it later).&lt;/p&gt;
+
+&lt;p class=&quot;notice--info text-justify&quot;&gt;&lt;i class=&quot;far fa-sticky-note&quot;&gt;&lt;/i&gt; &lt;strong&gt;The First Commandment:&lt;/strong&gt; 
+Always ask &lt;code&gt;null?&lt;/code&gt; as the first question in expressing any function.&lt;/p&gt;
+
+&lt;p&gt;Also, by recursively using the same function on &lt;code&gt;cdr lat&lt;/code&gt;, we are reducing the size of the input in this recursion. Each round of calling the function, we are shrinking the size of the list by 1 and getting closer to the termination condition &lt;code&gt;null?&lt;/code&gt;. This is also covered in the fourth  &lt;strong&gt;commandment&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;p class=&quot;notice--info text-justify&quot;&gt;&lt;i class=&quot;far fa-sticky-note&quot;&gt;&lt;/i&gt; &lt;strong&gt;The Fourth Commandment:&lt;/strong&gt; 
+Always change at least one argument while recurring. It must be changed to be closer to termination. The changing argument must be tested in the termination condition: when using &lt;code&gt;cdr&lt;/code&gt;, test the termination with &lt;code&gt;null?&lt;/code&gt;.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;A little quiz here: 
+By using recursion, can you write your own definition for function &lt;code&gt;rember&lt;/code&gt; (remove the first occurance of the given atom from the given list)?&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Here is the answer:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-lisp&quot;&gt;(define rember
+  (lambda (a lat)
+    (cond
+      ((null? lat) (quote()))
+      ((eq? (car lat) a) (cdr lat))
+      (else (cons (car lat)
+                  (rember a (cdr lat)))))))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p class=&quot;notice--info text-justify&quot;&gt;&lt;i class=&quot;far fa-sticky-note&quot;&gt;&lt;/i&gt; &lt;strong&gt;Up Next:&lt;/strong&gt; 
+In the part II we will talk more about recursion and lambda in this book. Stay tuned and may the recursion be with you!&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/post_image/may_the_recursion_be_with_u.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;references&quot;&gt;References&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/pkrumins/the-little-schemer&quot;&gt;The little schemer repo&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/andybp85/hyLittleSchemer&quot;&gt;The Little Schemer in Hy repo&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.viget.com/articles/the-little-schemer-will-expand-blow-your-mind/&quot;&gt;A post about The Little Schemer&lt;/a&gt;&lt;/p&gt;</content><author><name>Leivio Fontenele</name></author><category term="scheme" /><category term="recursion" /><category term="lisp" /><category term="scheme" /><category term="book" /><summary type="html">Recursion, recursion, and recursion... This book will blow your mind!</summary></entry><entry><title type="html">Intro to data structure and algorithm Part I</title><link href="http://localhost:4000/algo/algorithm-part-1/" rel="alternate" type="text/html" title="Intro to data structure and algorithm Part I" /><published>2020-11-20T00:00:00-05:00</published><updated>2020-11-20T00:00:00-05:00</updated><id>http://localhost:4000/algo/algorithm-part-1</id><content type="html" xml:base="http://localhost:4000/algo/algorithm-part-1/">&lt;p class=&quot;notice--primary&quot;&gt;&lt;em&gt;Today we are going to talk about Depth-first Search and backtracking. This is Part I of the intro to data structure and algo series. See others here.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt; 
+ &lt;/p&gt;
+
+&lt;p&gt;Depth-first search (DFS) is an algorithm for traversing or searching tree or graph data structures. It starts from the root node (if it’s a graph, you can select an arbitrary node) and goes along each branch as deep as possible before backtracking. Also we need to ensure that all the notes are marked as visited so we don’t need to visit the same node twice and got stuck in a loop.&lt;/p&gt;
+
+&lt;p&gt;On a high-level, DFS can be implemented in two ways:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Iterative approach using a stack. (Compared to BFS that implemented using a queue)&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Recursive approach using the same function by recursion (The function call is implemented by a stack frame in the backend, so it’s actually similar to the first approach)&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;The basic idea of DFS using a stack is as follows:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;From the starting node, push it into the stack.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;While stack is not empty:&lt;/p&gt;
+
+    &lt;p&gt;pop a node from the top of the stack&lt;/p&gt;
+
+    &lt;p&gt;visit it (depends on our objective, visit here means different things)&lt;/p&gt;
+
+    &lt;p&gt;mark it as visited, and push its neighbours into the stack.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&quot;example-subsets-recursion&quot;&gt;Example: Subsets, recursion&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;class Solution:
+    def subsets(self, nums: List[int]) -&amp;gt; List[List[int]]:
+        #backtracking
+        n = len(nums)
+        if n==0:
+            return []
+        def dfs(i, curr_path, res):
+            res.append(curr_path)
+            if len(curr_path)==n:
+                return
+            for j in range(i,n):
+                dfs(j+1, curr_path+[nums[j]], res)
+        res = []
+        curr_path = []
+        dfs(0, curr_path, res)
+        return res
+&lt;/code&gt;&lt;/pre&gt;</content><author><name>Leivio Fontenele</name></author><category term="algo" /><category term="algorithm" /><category term="data structure" /><category term="dfs" /><category term="bfs" /><category term="graph" /><summary type="html">DFS and backtracking</summary></entry><entry><title type="html">Git Basic Part II</title><link href="http://localhost:4000/git/git-basic-part-2/" rel="alternate" type="text/html" title="Git Basic Part II" /><published>2020-11-20T00:00:00-05:00</published><updated>2020-11-20T00:00:00-05:00</updated><id>http://localhost:4000/git/git-basic-part-2</id><content type="html" xml:base="http://localhost:4000/git/git-basic-part-2/">&lt;ul&gt;
+  &lt;li&gt;Up Next&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;In the part II we will talk more about Git. Stay tuned!&lt;/p&gt;</content><author><name>Leivio Fontenele</name></author><category term="git" /><category term="git" /><category term="branch" /><summary type="html">Git Part 2...</summary></entry><entry><title type="html">STAT110: The Probability course you don’t want to miss</title><link href="http://localhost:4000/stat/stat110-probability/" rel="alternate" type="text/html" title="STAT110: The Probability course you don't want to miss" /><published>2018-05-30T00:00:00-04:00</published><updated>2018-05-30T00:00:00-04:00</updated><id>http://localhost:4000/stat/stat110-probability</id><content type="html" xml:base="http://localhost:4000/stat/stat110-probability/">&lt;p&gt;I have always been fascinated by probability and statistics ever since I was in high school. I have taken a few courses in probability from school and online courses. But I would say that Joe’s probability course is one of my favorite courses of all time! It helped me gasp a deeper understanding in distribution and conditional probability. It also helped me connect the dots between different distributions and their applications.&lt;/p&gt;
+
+&lt;p&gt;Early this year, I have been watching the videos of STAT 110 Probability by Professor Joe Blitzstein on &lt;a href=&quot;https://www.youtube.com/playlist?list=PL2SOU6wwxB0uwwH80KTQ6ht66KWxbzTIo&quot;&gt;Youtube&lt;/a&gt; for 3 times. I almost listened to it before I went to bed every night!&lt;/p&gt;
+
+&lt;p&gt;This course also served as a pre-requisite and provide a solid foundation for another stat course I took later in Spring 2018: STAT 171 Introductions to Stochastics Processes by &lt;a href=&quot;http://www.people.fas.harvard.edu/~pillai/&quot;&gt;Natesh Pillai&lt;/a&gt; (I also recommend this course!)&lt;/p&gt;
+
+&lt;p&gt;If you want to learn more about random variables and their distributions, conditional probability and a lot of other interesting stuffs related to probability, don’t forget to check out STAT 110 at &lt;a href=&quot;https://projects.iq.harvard.edu/stat110&quot;&gt;the course website&lt;/a&gt;. There are a lot of study materials and exercise that you could learn and practice too.&lt;/p&gt;
+
+&lt;p&gt;Here is some videos that I like the most (if you want to get a quick gasp of what this course is about and why is this course interesting)&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;The “two envelope paradox”. Starting from 46:20 on &lt;a href=&quot;https://youtu.be/2LR5JYbhyjg?list=PL2SOU6wwxB0uwwH80KTQ6ht66KWxbzTIo&amp;amp;t=2776&quot;&gt;Lecture 25&lt;/a&gt; to the first part of &lt;a href=&quot;https://www.youtube.com/watch?v=PgawcWisb0I&amp;amp;list=PL2SOU6wwxB0uwwH80KTQ6ht66KWxbzTIo&amp;amp;index=26&quot;&gt;Lecture 26&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I would like to share one more thing quoted from Joe’s in his &lt;a href=&quot;https://www.youtube.com/watch?time_continue=1&amp;amp;v=dzFf3r1yph8&quot;&gt;talk on “The Soul of Statistics”&lt;/a&gt; (In case you haven’t seen this video above. Here is a spoiler alert!)&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;“Conditional is the soul of statistics.”&lt;/em&gt;&lt;/p&gt;
+
+&lt;p class=&quot;notice--info text-justify&quot;&gt;&lt;i class=&quot;far fa-sticky-note&quot;&gt;&lt;/i&gt; &lt;strong&gt;P.S.&lt;/strong&gt;  I recently heard from Joe’s &lt;a href=&quot;https://twitter.com/stat110/status/557630060895932417&quot;&gt;twitter&lt;/a&gt; that “He is working on developing an edX version of Stat 110, and that will indeed have a certificate of completion.” Hopefully the course will be launching on EdX soon!&lt;/p&gt;
+
+&lt;p class=&quot;notice--info text-justify&quot;&gt;&lt;i class=&quot;far fa-sticky-note&quot;&gt;&lt;/i&gt; &lt;strong&gt;Update 2018:&lt;/strong&gt; 
+I audited STAT 210 Probability in Fall 2018, a advance version of STAT 110 and it touched on more measure theory and proofs.&lt;/p&gt;
+
+&lt;p class=&quot;notice--info text-justify&quot;&gt;&lt;i class=&quot;far fa-sticky-note&quot;&gt;&lt;/i&gt; &lt;strong&gt;Update 2019:&lt;/strong&gt; 
+Joe’s Introduction to Probability course launched on Edx! Check the course official website &lt;a href=&quot;https://www.edx.org/course/introduction-to-probability&quot;&gt;here&lt;/a&gt; for more! The second edition of Joe’s probability book with Jessica Hwang is free online &lt;a href=&quot;http://probabilitybook.net&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;</content><author><name>Leivio Fontenele</name></author><category term="stat" /><category term="probability" /><category term="stat" /><category term="courses" /><summary type="html">STAT110 launched on EdX!</summary></entry></feed>
