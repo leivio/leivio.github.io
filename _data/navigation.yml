@@ -51,6 +51,4 @@ docs:
   - title: Git 
     children:
       - title: "Git Basic Part 1"
-        url: /git/git-basic-part-1/
-      - title: "Git Basic Part 2"
-        url: /git/git-basic-part-2/
+        url: /git/git-basic-part-1/      
